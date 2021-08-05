@@ -24,6 +24,23 @@ router.get("/patients/allRecords", async (req, res) =>{
 
 //------------------------ PUT REQUESTS -------------------------//
 
+// request to edit user profile *WORKING*
+router.put("/user/edit", auth,  async (req, res) =>{
+    try {
+        let user = await User.findById(req.user._id);
+        if (!user) return res.status(400).send('User does not exist.');
+
+        if(req.body.address) {user.address = req.body.address;}
+        if(req.body.phone){user.phone = req.body.phone;}
+        if(req.body.photo) {user.photo = req.body.photo;}
+        if(req.body.isAdmin) {user.isAdmin = req.body.isAdmin;}
+
+        await user.save();
+        return res.send(user)
+    } catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }});
+
 //------------------------ DELETE REQUESTS -------------------------//
 
 
