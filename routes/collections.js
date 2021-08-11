@@ -9,6 +9,18 @@ const { Supply, validateSupply} = require("../models/supply")
 
 //------------------------ GET REQUESTS -------------------------//
 
+//------users collection----------//
+router.get("/user/userInfo", auth, async (req, res) =>{
+    try {
+        let user = await User.findById(req.user._id);
+        if (!user) return res.status(400).send('Cannot find currently logged in user\'s record.');
+
+       
+        return res.status(200).send(user);
+    } catch (ex) {
+        return res.status(500).send(`Internal Server Error: ${ex}`);
+    }});
+
 //------patients collection-------//
 
 //Get request to return all patients health records *Working
